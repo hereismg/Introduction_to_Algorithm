@@ -1,0 +1,10 @@
+{
+    "cases": "./cases",
+    "solution": "./solution/AC.cpp",
+
+    "problem": {
+        "type": "standard",
+        "time_limit": "1000",
+        "mem_limit": "128"
+    }
+}
