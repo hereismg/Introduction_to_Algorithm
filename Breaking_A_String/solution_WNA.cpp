@@ -1,8 +1,6 @@
 #include <iostream>
 using namespace std;
 
-using PII = pair<int, int>;
-
 const int N = 1e5 + 7;
 
 int splits[N];
@@ -10,17 +8,27 @@ int result;
 int ops[N];
 int length;
 
-// TODO: 修改方案, 找到一个 i 使 |L[i] - (nl + nr) / 2| 最小
+// TODO: 加速方案, 找到一个 i 使 |L[i] - (nl + nr) / 2| 最小
 int fun(int nl, int nr, int ml, int mr) {
 	if(mr - ml <= 1) return 0;
 	int sm = nr - nl + 1;
-	int midml = (ml + mr) / 2;
-	int midmr = (ml + mr + 2 - 1) / 2;
-	int mid = (nr - splits[midmr] > splits[midml] - nl) ? (midmr) : (midml);
-	ops[length] = mid;
+	
+	double mid = 1.0 * (nr - nl) / 2;
+	double mn = -7;
+	int mnidx;
+	for(int i = ml + 1; i < mr; ++ i) {
+		double dis = mid - splits[i];
+		if(dis < 0) dis = -dis;
+		if(mn < -5 || mn > dis) {
+			mnidx = i;
+			mn = dis;
+		}
+	}
+	
+	ops[length] = mnidx;
 	++ length;
-	sm += fun(nl, splits[mid], ml, mid);
-	sm += fun(splits[mid] + 1, nr, mid, mr);
+	sm += fun(nl, splits[mnidx], ml, mnidx);
+	sm += fun(splits[mnidx] + 1, nr, mnidx, mr);
 	return sm;
 }
 
