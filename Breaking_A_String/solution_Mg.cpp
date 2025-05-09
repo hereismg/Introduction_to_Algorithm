@@ -12,12 +12,16 @@ int main(){
     int n, m;
     cin >> n >> m;
 
-    vector<int> split_arr(m + 2, 0);
-    split_arr[0] = 1;
-    for (int i=1; i<=m; i++){
+    vector<int> split_arr(m, 0);
+    for (int i=0; i<m; i++){
         cin >> split_arr[i];
     }
-    split_arr[m+1] = n;
+    if (split_arr[0] != 1) split_arr.insert(split_arr.begin(), 1);
+    if (split_arr[m+1] != n) split_arr.push_back(n);
+
+    // for (auto i: split_arr){
+    //     cout << i << endl;
+    // }
 
     vector<int> dp(m + 1, 0);
 
